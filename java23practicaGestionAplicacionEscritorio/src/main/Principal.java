@@ -19,8 +19,6 @@ import ventanas.VentanaPrincipal;
  * intentar realizar un listado de informaciones en los paneles de listado*/
 
 public class Principal {
-	//nuevo comentario
-	//nuevo comentario 2
 	public static void main(String[] args) {
 		new VentanaPrincipal();
 	}

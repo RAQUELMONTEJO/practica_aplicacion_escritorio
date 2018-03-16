@@ -21,8 +21,7 @@ public class ClientesDAOImpl implements ClientesDAO {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url = "jdbc:mysql://localhost:3306/practica_escritorio";
-			miConexion = DriverManager
-					.getConnection(url, "root", "jeveris");
+			miConexion = DriverManager.getConnection(url, "root", "jeveris");
 		} catch (ClassNotFoundException e) {
 			System.out.println("No encuentro el driver-libreria de mysql.");
 		} catch (SQLException e) {
@@ -50,20 +49,49 @@ public class ClientesDAOImpl implements ClientesDAO {
 			ps.close();
 
 			System.out.println("Cliente insertado correctamente");
-			JOptionPane.showMessageDialog(null, "Cliente insertado correctamente.", "Bien hecho ", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"Cliente insertado correctamente.", "Bien hecho ",
+					JOptionPane.PLAIN_MESSAGE);
 
 		} catch (SQLException e) {
 			System.out.println("Fallo en la sql.");
-			JOptionPane.showMessageDialog(null, "Fallo en la sql.", "Mensaje de error ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Fallo en la sql.",
+					"Mensaje de error ", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
 
 	@Override
 	public void borrarCliente(int id) {
-		// TODO Auto-generated method stub
+		Cliente[] clientes = null;
+		try {
+			PreparedStatement ps = miConexion
+					.prepareStatement(ConstantesSQL.sqlBorradoCliente);
+			ResultSet resultado = ps.executeQuery();
+			ps.setInt(1, id);
+			ps.execute();
+			ps.close();
+			List<Cliente> listClientes = new ArrayList<Cliente>();
+			while (resultado.next()) {
+				Cliente c = new Cliente();
+				c.setNombre(resultado.getString("nombre"));
+				c.setDomicilio(resultado.getString("domicilio"));
+				c.setPoblacion(resultado.getString("Poblacion"));
+				c.setCodigoPostal(resultado.getString("codigo_postal"));
+				c.setTelefono(resultado.getString("telefono"));
+				c.setId(resultado.getInt("id"));
+				listClientes.add(c);
 
+				clientes = listClientes
+						.toArray(new Cliente[listClientes.size()]);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("La sql de borrado esta mal.");
+			System.out.println(e.getMessage());
+		}
 	}
+
 
 	@Override
 	public Cliente[] obtenerClientes() {
@@ -73,7 +101,7 @@ public class ClientesDAOImpl implements ClientesDAO {
 					.prepareStatement(ConstantesSQL.sqlSeleccionCliente);
 			ResultSet resultado = ps.executeQuery();
 			List<Cliente> listClientes = new ArrayList<Cliente>();
-			while(resultado.next()){
+			while (resultado.next()) {
 				Cliente c = new Cliente();
 				c.setNombre(resultado.getString("nombre"));
 				c.setDomicilio(resultado.getString("domicilio"));
@@ -81,12 +109,12 @@ public class ClientesDAOImpl implements ClientesDAO {
 				c.setCodigoPostal(resultado.getString("codigo_postal"));
 				c.setTelefono(resultado.getString("telefono"));
 				listClientes.add(c);
-				
-				clientes=listClientes.toArray(new Cliente[listClientes.size()]);
-				
+
+				clientes = listClientes
+						.toArray(new Cliente[listClientes.size()]);
+
 			}
-			
-			
+
 		} catch (SQLException e) {
 			System.out.println("error sql listar");
 			System.out.println(e.getMessage());

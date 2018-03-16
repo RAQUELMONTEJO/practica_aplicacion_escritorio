@@ -119,6 +119,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 			panellistadoclientes.refrecarClientes();
 		} else if (e.getActionCommand().equals("Borrar Clientes")) {
 			setContentPane(panellistadoclientes);
+			panellistadoclientes.refrecarClientes();
 		}
 		System.out.println("atiendo a: " + e.getActionCommand());
 		if (e.getActionCommand().equals("Insertar prendas")) {

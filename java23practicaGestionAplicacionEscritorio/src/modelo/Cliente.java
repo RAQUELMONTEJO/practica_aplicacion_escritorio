@@ -7,6 +7,7 @@ public class Cliente {
 	private String poblacion;
 	private String codigoPostal;
 	private String telefono;
+	private int id;
 	
 	public Cliente() {
 	} //end cliente
@@ -59,6 +60,14 @@ public class Cliente {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	@Override
